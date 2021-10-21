@@ -1,14 +1,70 @@
 #include "Particle.hpp"
 
+Particle::Particle() = default;
 Particle::Particle(const char* name, double px, double py, double pz)
     : px_{px}, py_{py}, pz_{pz} {
   index_ = findType(name);
   if (index_ == numTypes) {
+    index_ = -1;
     std::string error{"Can't find "};
     error.append(name);
     error.append(" among the particle types.\n");
     throw std::runtime_error(error);
   }
+}
+Particle::Particle(Particle& p)
+    : index_{p.getIndex()}, px_{p.getPx()}, py_{p.getPy()}, pz_{p.getPz()} {}
+
+int Particle::decayTo(Particle& p1, Particle& p2) const {
+  if (getMass() == 0.0) {
+    throw std::runtime_error("Decayment cannot be performed if mass is zero\n");
+    return 1;
+  }
+  double massMot = getMass();
+  double massP1 = p1.getMass();
+  double massP2 = p2.getMass();
+  if (index_ > -1) {
+    float x1;
+    float x2;
+    float w;
+    float y1;
+    float y2;
+    double invnum = 1. / RAND_MAX;
+    do {
+      x1 = 2. * rand() * invnum - 1.;
+      x2 = 2. * rand() * invnum - 1.;
+      w = x1 * x1 + x2 * x2;
+    } while (w >= 1.);
+    w = std::sqrt((-2. * std::log(w)) / w);
+    y1 = x1 * w;
+    y2 = x2 * w;
+    massMot += pTypes[index_]->getWidth() * y1;
+  }
+  if (massMot < massP1 + massP2) {
+    throw std::runtime_error(
+        "Decayment cannot be performed because mass is too low in this "
+        "channel\n");
+    return 2;
+  }
+  double pout =
+      std::sqrt((massMot * massMot - (massP1 + massP2) * (massP1 + massP2)) *
+                (massMot * massMot - (massP1 - massP2) * (massP1 - massP2))) /
+      massMot * 0.5;
+  double norm = 2 * M_PI / RAND_MAX;
+  double phi = rand() * norm;
+  double theta = rand() * norm * 0.5 - M_PI / 2.;
+  p1.setP(pout * std::sin(theta) * std::cos(phi),
+          pout * std::sin(theta) * std::sin(phi), pout * std::cos(theta));
+  p2.setP(-pout * std::sin(theta) * std::cos(phi),
+          -pout * std::sin(theta) * std::sin(phi), -pout * std::cos(theta));
+  double energy =
+      std::sqrt(px_ * px_ + py_ * py_ + pz_ * pz_ + massMot * massMot);
+  double bx = px_ / energy;
+  double by = py_ / energy;
+  double bz = pz_ / energy;
+  p1.boost(bx, by, bz);
+  p2.boost(bx, by, bz);
+  return 0;
 }
 
 double Particle::getEnergy() const {
@@ -144,4 +200,15 @@ int Particle::findType(const char* name) {
     }
   }
   return index;
+}
+
+void Particle::boost(double bx, double by, double bz) {
+  double energy = getEnergy();
+  double b2 = bx * bx + by * by + bz * bz;
+  double gamma = 1. / std::sqrt(1. - b2);
+  double bp = bx * px_ + by * py_ + bz * pz_;
+  double gamma2 = b2 > 0 ? (gamma - 1.) / b2 : 0.;
+  px_ += gamma2 * bp * bx + gamma * bx * energy;
+  py_ += gamma2 * bp * by + gamma * by * energy;
+  pz_ += gamma2 * bp * bz + gamma * bz * energy;
 }

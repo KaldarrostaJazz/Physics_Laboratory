@@ -2,6 +2,7 @@
 #define PARTICLE_HPP
 
 #include <cmath>
+#include <cstdlib>
 #include <string>
 
 #include "ResonanceType.hpp"
@@ -9,7 +10,13 @@
 class Particle {
  public:
   // Constructor /////
+  Particle();
   Particle(const char* name, double px, double py, double pz);
+  Particle(Particle& p);
+  ////////////////////
+
+  // Decay method ////
+  int decayTo(Particle& p1, Particle& p2) const;
   ////////////////////
 
   // Getters /////////
@@ -48,6 +55,8 @@ class Particle {
   static int numTypes;
 
   static int findType(const char* name);
+
+  void boost(double bx, double by, double bz);
 
   int index_;
   double px_{0.};

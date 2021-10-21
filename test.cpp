@@ -31,6 +31,10 @@ TEST_CASE("Particle: addType on the heap") {
   Particle::addType("Pione-", 139.6, -1, 6.11);
   Particle::addType("Kaone", 497.648, 0, 19.23);
 
+  CHECK_THROWS(Particle::addType("Protone", 12.3, 2, 4.5));
+}
+
+TEST_CASE("Particles properties") {
   Particle particella_1{"Protone", 1., 1., 1.};
   Particle particella_2{"Elettrone", 1., 1., 1.};
   Particle particella_3{"Neutrone", 1., 1., 1.};
@@ -59,9 +63,13 @@ TEST_CASE("Particle: addType on the heap") {
   particella_2.setIndex("Kaone");
   CHECK(particella_2.getIndex() == 5);
 
-  CHECK_THROWS(Particle::addType("Protone", 12.3, 2, 4.5));
   CHECK_THROWS(particella_1.setIndex(11));
   CHECK_THROWS(particella_1.setIndex("StdExcept"));
+
+  particella_5.setP(2., 3.4, 0.6);
+  CHECK(particella_5.getPx() == doctest::Approx(2.));
+  CHECK(particella_5.getPy() == doctest::Approx(3.4));
+  CHECK(particella_5.getPz() == doctest::Approx(0.6));
 }
 
 TEST_CASE("pTypes properties") {
