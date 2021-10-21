@@ -24,6 +24,7 @@ class Particle {
   double getPx() const { return px_; }
   double getPy() const { return py_; }
   double getPz() const { return pz_; }
+  double getP() const { return std::sqrt(px_ * px_ + py_ * py_ + pz_ * pz_); }
   double getMass() const { return pTypes[index_]->getMass(); }
   double getEnergy() const;
   double getInvMass(Particle& particle);
