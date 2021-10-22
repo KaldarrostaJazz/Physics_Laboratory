@@ -211,7 +211,7 @@ int main() {
     for (int k = 0; k != count; ++k) {
       int k_charge = Particle::getPType(array[k].getIndex())->getCharge();
       for (int l = k + 1; l != count; ++l) {
-        int invMass = array[k].getInvMass(array[l]);
+        double invMass = array[k].getInvMass(array[l]);
         tot_inv->Fill(invMass);
         int l_charge = Particle::getPType(array[l].getIndex())->getCharge();
         if (k_charge == l_charge) {
