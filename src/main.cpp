@@ -2,17 +2,20 @@
 #include "ParticleType.hpp"
 #include "ResonanceType.hpp"
 
-// #include "TH1F.h"
-// #include "TGraph.h"
-// #include "TMath.h"
-// #include "TRandom.h"
-// #include "TCanvas.h"
-// #include "TStyle.h"
-// #include "TPad.h"
+/*
+#include "TH1F.h"
+#include "TGraph2D.h"
+#include "TMath.h"
+#include "TRandom.h"
+#include "TCanvas.h"
+#include "TStyle.h"
+#include "TPad.h" 
+#include "TPaveStats.h"
+*/
 
 int main() {
   gStyle->SetPalette(1);
-  gStyle->SetOptStat("neMR");
+  gStyle->SetOptStat("neMRo");
 
   TRandom* Random = new TRandom();
   Random->SetSeed();
@@ -48,14 +51,14 @@ int main() {
   phi_hist->GetYaxis()->SetTitle("Occurencies");
   phi_hist->SetFillColor(0);
   phi_hist->SetLineColor(kBlue);
-  phi_hist->SetLineWidth(2);
+  phi_hist->SetLineWidth(1);
   TH1F* theta_hist = new TH1F("theta_angle", "Distribution of the polar angle",
                               1000, 0., TMath::Pi());
   theta_hist->GetXaxis()->SetTitle("Angle (rad)");
   theta_hist->GetYaxis()->SetTitle("Occurencies");
   theta_hist->SetFillColor(0);
   theta_hist->SetLineColor(kRed);
-  theta_hist->SetLineWidth(2);
+  theta_hist->SetLineWidth(1);
   TGraph2D* angles_graph = new TGraph2D(1E5);
   angles_graph->SetTitle(
       "Polar angles generation graph; X coordinate; Y coordinate; Z "
@@ -71,21 +74,28 @@ int main() {
   p_hist->GetXaxis()->SetTitle("Momentum (GeV/c)");
   p_hist->GetYaxis()->SetTitle("Occurrencies");
   p_hist->SetLineColor(kBlack);
-  p_hist->SetLineWidth(2);
+  p_hist->SetLineWidth(1);
   TH1F* trasvP_hist =
       new TH1F("trasvP_hist", "Trasversal Momentum Dist.", 1000, 0., 5);
   trasvP_hist->GetXaxis()->SetTitle("Trasversal Momentum (GeV/c)");
   trasvP_hist->GetYaxis()->SetTitle("Occurrencies");
   trasvP_hist->SetLineColor(kBlack);
-  trasvP_hist->SetLineWidth(2);
+  trasvP_hist->SetLineWidth(1);
 
   // Histogram of particle energies
   TH1F* energy_histo =
       new TH1F("energy_histo", "Particle Energies Dist.", 1000, 0., 5.);
   energy_histo->GetXaxis()->SetTitle("Energy (GeV)");
   energy_histo->GetYaxis()->SetTitle("Occurrencies");
-  // energy_histo->SetLineColor(kYellow + 5);
-  // energy_histo->SetLineWidth(2);
+  energy_histo->SetLineColor(kYellow + 3);
+  energy_histo->SetLineWidth(1);
+
+  // Histogram of Invarian Masses
+  TH1F* decay_inv = new TH1F("decay_inv", "Inv. Masses of decayment products", 1000, 0., 2.);
+  decay_inv->GetXaxis()->SetTitle("Mass (Gev/c^2)");
+  decay_inv->GetYaxis()->SetTitle("Occurrencies");
+  decay_inv->SetLineColor(kBlue+3);
+  decay_inv->SetLineWidth(1);
 
   // Loop generating the particles
   for (int i = 0; i != 1E5; ++i) {
@@ -148,6 +158,7 @@ int main() {
           p2.setIndex("Kaone+");
           particle.decayTo(p1, p2);
         }
+
         p_hist->Fill(p1.getP());
         p_hist->Fill(p2.getP());
         trasvP_hist->Fill(
@@ -156,6 +167,8 @@ int main() {
             std::sqrt(p2.getPx() * p2.getPx() + p2.getPy() * p2.getPy()));
         energy_histo->Fill(p1.getEnergy());
         energy_histo->Fill(p2.getEnergy());
+	decay_inv->Fill(p1.getInvMass(p2));
+
       }
 
       types->Fill(particle.getIndex());
@@ -204,11 +217,15 @@ int main() {
   energy_canva->SetTitle("Energis Dist.");
   energy_histo->Draw("C");
 
+  TCanvas* invMass_canva = new TCanvas("invMass_canva");
+  decay_inv->Draw("C");
+
   // Printing pdfs
-  types_canva->Print("types_canva.pdf");
-  angles_canva->Print("angles_canva.pdf");
-  p_canva->Print("p_canva.pdf");
-  energy_canva->Print("energy_canva.pdf");
+  types_canva->Print("../pdfs/types_canva.pdf");
+  angles_canva->Print("../pdfs/angles_canva.pdf");
+  p_canva->Print("../pdfs/p_canva.pdf");
+  energy_canva->Print("../pdfs/energy_canva.pdf");
+  invMass_canva->Print("../pdfs/decay_inv.pdf");
 
   return 0;
 }
