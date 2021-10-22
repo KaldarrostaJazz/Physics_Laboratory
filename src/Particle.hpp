@@ -15,6 +15,10 @@ class Particle {
   Particle(Particle& p);
   ////////////////////
 
+  // Operator = //////
+  Particle& operator=(const Particle& other);
+  ////////////////////
+
   // Decay method ////
   int decayTo(Particle& p1, Particle& p2) const;
   ////////////////////
@@ -64,4 +68,15 @@ class Particle {
   double py_{0.};
   double pz_{0.};
 };
+inline Particle& Particle::operator=(const Particle& other) {
+  this->index_ = other.getIndex();
+  this->px_ = other.getPx();
+  this->py_ = other.getPy();
+  this->pz_ = other.getPz();
+  return *this;
+}
+/*inline Particle& Particle::operator=(const Particle& other) {
+        *this{other};
+        return *this;
+}*/
 #endif

@@ -2,16 +2,14 @@
 #include "ParticleType.hpp"
 #include "ResonanceType.hpp"
 
-/*
-#include "TH1F.h"
-#include "TGraph2D.h"
-#include "TMath.h"
-#include "TRandom.h"
 #include "TCanvas.h"
-#include "TStyle.h"
-#include "TPad.h" 
+#include "TGraph2D.h"
+#include "TH1F.h"
+#include "TMath.h"
+#include "TPad.h"
 #include "TPaveStats.h"
-*/
+#include "TRandom.h"
+#include "TStyle.h"
 
 int main() {
   gStyle->SetPalette(1);
@@ -70,13 +68,13 @@ int main() {
   int point_count{0};
 
   // Histogram of momentum and trasversal momentum values
-  TH1F* p_hist = new TH1F("p_hist", "Momentum Dist.", 1000, 0., 7.5);
+  TH1F* p_hist = new TH1F("p_hist", "Momentum Dist.", 1000, 0., 8.);
   p_hist->GetXaxis()->SetTitle("Momentum (GeV/c)");
   p_hist->GetYaxis()->SetTitle("Occurrencies");
   p_hist->SetLineColor(kBlack);
   p_hist->SetLineWidth(1);
   TH1F* trasvP_hist =
-      new TH1F("trasvP_hist", "Trasversal Momentum Dist.", 1000, 0., 5);
+      new TH1F("trasvP_hist", "Trasversal Momentum Dist.", 1000, 0., 8.);
   trasvP_hist->GetXaxis()->SetTitle("Trasversal Momentum (GeV/c)");
   trasvP_hist->GetYaxis()->SetTitle("Occurrencies");
   trasvP_hist->SetLineColor(kBlack);
@@ -84,21 +82,45 @@ int main() {
 
   // Histogram of particle energies
   TH1F* energy_histo =
-      new TH1F("energy_histo", "Particle Energies Dist.", 1000, 0., 5.);
+      new TH1F("energy_histo", "Particle Energies Dist.", 1000, 0., 8.);
   energy_histo->GetXaxis()->SetTitle("Energy (GeV)");
   energy_histo->GetYaxis()->SetTitle("Occurrencies");
   energy_histo->SetLineColor(kYellow + 3);
   energy_histo->SetLineWidth(1);
 
-  // Histogram of Invarian Masses
-  TH1F* decay_inv = new TH1F("decay_inv", "Inv. Masses of decayment products", 1000, 0., 2.);
+  // Histogram of Invariant Masses
+  TH1F* decay_inv =
+      new TH1F("decay_inv", "Inv. Masses of decayment products", 1000, 0., 2.);
   decay_inv->GetXaxis()->SetTitle("Mass (Gev/c^2)");
   decay_inv->GetYaxis()->SetTitle("Occurrencies");
-  decay_inv->SetLineColor(kBlue+3);
+  decay_inv->SetLineColor(kBlue + 3);
   decay_inv->SetLineWidth(1);
+  TH1F* tot_inv = new TH1F(
+      "tot_inv", "Inv. Masses of total generated particles", 10000, 0., 10.);
+  tot_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
+  tot_inv->GetYaxis()->SetTitle("Occurencies");
+  tot_inv->SetLineColor(kRed + 3);
+  tot_inv->SetLineWidth(1);
+  TH1F* sameCharge_inv =
+      new TH1F("sameCharge_inv", "Inv. Masses of particles with same charge",
+               10000, 0., 10.);
+  sameCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
+  sameCharge_inv->GetYaxis()->SetTitle("Occurencies");
+  sameCharge_inv->SetLineColor(kGreen + 3);
+  sameCharge_inv->SetLineWidth(1);
+  TH1F* diffCharge_inv =
+      new TH1F("diffCharge_inv",
+               "Inv. Masses of particles with different charge", 10000, 0., 10.);
+  diffCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
+  diffCharge_inv->GetYaxis()->SetTitle("Occurencies");
+  diffCharge_inv->SetLineColor(kYellow + 3);
+  diffCharge_inv->SetLineWidth(1);
 
   // Loop generating the particles
   for (int i = 0; i != 1E5; ++i) {
+    Particle array[130];
+    int count = 0;
+
     for (int j = 0; j != 100; ++j) {
       Particle particle;
 
@@ -118,6 +140,7 @@ int main() {
         } else {
           particle.setIndex("Pione-");
         }
+        array[count++] = particle;
         p_hist->Fill(p);
         trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
@@ -129,6 +152,7 @@ int main() {
         } else {
           particle.setIndex("Kaone-");
         }
+        array[count++] = particle;
         p_hist->Fill(p);
         trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
@@ -140,6 +164,7 @@ int main() {
         } else {
           particle.setIndex("Protone-");
         }
+        array[count++] = particle;
         p_hist->Fill(p);
         trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
@@ -159,6 +184,8 @@ int main() {
           particle.decayTo(p1, p2);
         }
 
+        array[count++] = p1;
+        array[count++] = p2;
         p_hist->Fill(p1.getP());
         p_hist->Fill(p2.getP());
         trasvP_hist->Fill(
@@ -167,8 +194,7 @@ int main() {
             std::sqrt(p2.getPx() * p2.getPx() + p2.getPy() * p2.getPy()));
         energy_histo->Fill(p1.getEnergy());
         energy_histo->Fill(p2.getEnergy());
-	decay_inv->Fill(p1.getInvMass(p2));
-
+        decay_inv->Fill(p1.getInvMass(p2));
       }
 
       types->Fill(particle.getIndex());
@@ -180,6 +206,19 @@ int main() {
         double y = std::sin(theta) * std::sin(phi);
         double z = std::cos(theta);
         angles_graph->SetPoint(point_count++, x, y, z);
+      }
+    }
+    for (int k = 0; k != count; ++k) {
+      int k_charge = Particle::getPType(array[k].getIndex())->getCharge();
+      for (int l = k + 1; l != count; ++l) {
+        int invMass = array[k].getInvMass(array[l]);
+        tot_inv->Fill(invMass);
+        int l_charge = Particle::getPType(array[l].getIndex())->getCharge();
+        if (k_charge == l_charge) {
+          sameCharge_inv->Fill(invMass);
+        } else if (k_charge != l_charge) {
+          diffCharge_inv->Fill(invMass);
+        }
       }
     }
   }
@@ -218,14 +257,23 @@ int main() {
   energy_histo->Draw("C");
 
   TCanvas* invMass_canva = new TCanvas("invMass_canva");
-  decay_inv->Draw("C");
+  invMass_canva->SetWindowSize(1000, 1000);
+  invMass_canva->Divide(2, 2);
+  invMass_canva->cd(1);
+  tot_inv->Draw();
+  invMass_canva->cd(2);
+  decay_inv->Draw();
+  invMass_canva->cd(3);
+  sameCharge_inv->Draw();
+  invMass_canva->cd(4);
+  diffCharge_inv->Draw();
 
   // Printing pdfs
   types_canva->Print("../pdfs/types_canva.pdf");
   angles_canva->Print("../pdfs/angles_canva.pdf");
   p_canva->Print("../pdfs/p_canva.pdf");
   energy_canva->Print("../pdfs/energy_canva.pdf");
-  invMass_canva->Print("../pdfs/decay_inv.pdf");
+  invMass_canva->Print("../pdfs/invMass_canva.pdf");
 
   return 0;
 }
