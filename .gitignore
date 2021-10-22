@@ -1,1 +1,4 @@
 *.out
+*.d
+*.so
+*_cpp_ACLiC_dict_rdict.pcm
