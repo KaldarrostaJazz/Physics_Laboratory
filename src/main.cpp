@@ -141,8 +141,6 @@ int main() {
           particle.setIndex("Pione-");
         }
         array[count++] = particle;
-        p_hist->Fill(p);
-        trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
       }
       if (0.8 <= r && r < 0.9) {
@@ -153,8 +151,6 @@ int main() {
           particle.setIndex("Kaone-");
         }
         array[count++] = particle;
-        p_hist->Fill(p);
-        trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
       }
       if (0.9 <= r && r < 0.99) {
@@ -165,8 +161,6 @@ int main() {
           particle.setIndex("Protone-");
         }
         array[count++] = particle;
-        p_hist->Fill(p);
-        trasvP_hist->Fill(std::sqrt(px * px + py * py));
         energy_histo->Fill(particle.getEnergy());
       }
       if (0.99 <= r && r < 1) {
@@ -186,17 +180,13 @@ int main() {
 
         array[count++] = p1;
         array[count++] = p2;
-        p_hist->Fill(p1.getP());
-        p_hist->Fill(p2.getP());
-        trasvP_hist->Fill(
-            std::sqrt(p1.getPx() * p1.getPx() + p1.getPy() * p1.getPy()));
-        trasvP_hist->Fill(
-            std::sqrt(p2.getPx() * p2.getPx() + p2.getPy() * p2.getPy()));
         energy_histo->Fill(p1.getEnergy());
         energy_histo->Fill(p2.getEnergy());
         decay_inv->Fill(p1.getInvMass(p2));
       }
 
+      p_hist->Fill(p);
+      trasvP_hist->Fill(std::sqrt(px * px + py * py));
       types->Fill(particle.getIndex());
       phi_hist->Fill(phi);
       theta_hist->Fill(theta);
