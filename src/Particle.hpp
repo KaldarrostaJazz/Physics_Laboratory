@@ -75,8 +75,4 @@ inline Particle& Particle::operator=(const Particle& other) {
   this->pz_ = other.getPz();
   return *this;
 }
-/*inline Particle& Particle::operator=(const Particle& other) {
-        *this{other};
-        return *this;
-}*/
 #endif
