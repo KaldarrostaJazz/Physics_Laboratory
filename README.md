@@ -10,8 +10,8 @@ This code is part of my physics laboratory exam at University of Bologna.
 
 ## Building
 The preferred way to build this code is inside ROOT.
+In src/ run root, then:
 ```shell
-// in src/ run root
 .L ParticleType.cpp+
 .L ResonanceType.cpp+
 .L Particle.cpp+
