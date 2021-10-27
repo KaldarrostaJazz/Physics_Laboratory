@@ -1,7 +1,6 @@
 #include "Particle.hpp"
 #include "ParticleType.hpp"
 #include "ResonanceType.hpp"
-
 #include "TCanvas.h"
 #include "TGraph2D.h"
 #include "TH1F.h"
@@ -108,13 +107,25 @@ int main() {
   sameCharge_inv->GetYaxis()->SetTitle("Occurencies");
   sameCharge_inv->SetLineColor(kGreen + 3);
   sameCharge_inv->SetLineWidth(1);
-  TH1F* diffCharge_inv =
-      new TH1F("diffCharge_inv",
-               "Inv. Masses of particles with different charge", 10000, 0., 10.);
+  TH1F* diffCharge_inv = new TH1F(
+      "diffCharge_inv", "Inv. Masses of particles with different charge", 10000,
+      0., 10.);
   diffCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
   diffCharge_inv->GetYaxis()->SetTitle("Occurencies");
   diffCharge_inv->SetLineColor(kYellow + 3);
   diffCharge_inv->SetLineWidth(1);
+  TH1F* piK_inv =
+      new TH1F("Pione+/-_Kaone-/+",
+               "Inv. Masses of couples Pions+/- and Kaons-/+", 10000, 0., 10.);
+  piK_inv->GetXaxis()->SetTitle("Mass (GeV)");
+  piK_inv->GetYaxis()->SetTitle("Occurrencies");
+  piK_inv->SetLineColor(kBlue);
+  TH1F* Kpi_inv =
+      new TH1F("Kaone+/-_Pione+/-",
+               "Inv. Masses of couples Pions+/- and Kaons+/-", 10000, 0., 10.);
+  Kpi_inv->GetXaxis()->SetTitle("Mass (GeV)");
+  Kpi_inv->GetYaxis()->SetTitle("Occurrencies");
+  Kpi_inv->SetLineColor(kRed);
 
   // Loop generating the particles
   for (int i = 0; i != 1E5; ++i) {
@@ -209,6 +220,14 @@ int main() {
         } else if (k_charge != l_charge) {
           diffCharge_inv->Fill(invMass);
         }
+        if ((array[k].getIndex() == 0 && array[l].getIndex() == 5) ||
+            (array[k].getIndex() == 1 && array[l].getIndex() == 4)) {
+          piK_inv->Fill(invMass);
+        }
+        if ((array[k].getIndex() == 0 && array[l].getIndex() == 4) ||
+            (array[k].getIndex() == 1 && array[l].getIndex() == 5)) {
+          Kpi_inv->Fill(invMass);
+        }
       }
     }
   }
@@ -258,12 +277,21 @@ int main() {
   invMass_canva->cd(4);
   diffCharge_inv->Draw();
 
+  TCanvas* couples_canva = new TCanvas("couples_canva");
+  couples_canva->SetWindowSize(1200, 600);
+  couples_canva->Divide(2, 1);
+  couples_canva->cd(1);
+  piK_inv->Draw();
+  couples_canva->cd(2);
+  Kpi_inv->Draw();
+
   // Printing pdfs
   types_canva->Print("../pdfs/types_canva.pdf");
   angles_canva->Print("../pdfs/angles_canva.pdf");
   p_canva->Print("../pdfs/p_canva.pdf");
   energy_canva->Print("../pdfs/energy_canva.pdf");
   invMass_canva->Print("../pdfs/invMass_canva.pdf");
+  couples_canva->Print("../pdfs/couples_canva.pdf");
 
   return 0;
 }
