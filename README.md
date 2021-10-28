@@ -1,6 +1,6 @@
 # Particle collider simulator.
-This is a simulation of a particle collision esperiment, such as the ones performed at CERN's ALICE, generated using Montecarlo generation integrated in ROOT. I will add more details in the future.
-This code is part of my physics laboratory exam at University of Bologna.
+This is a simulation of a particle collision esperiment, such as the ones performed at CERN's ALICE, generated using Montecarlo generation integrated in ROOT. I 
+will add more details in the future. This code is part of my physics laboratory exam at University of Bologna.
 
 --------------------------------------------------------------------------------
 
@@ -51,7 +51,8 @@ Then, run :
 ```shell
 main()
 ```
-This method is preferred because it tooks less time. However, compiling this way will generate new files, wich are the dynamic libraries needed by ROOT to run the program. Don't panic if you see appearing ```.so```, ```.d``` and ```.pcm``` files.
+This method is preferred because it tooks less time. However, compiling this way will generate new files, wich are the dynamic libraries needed by ROOT to run 
+the program. Don't panic if you see appearing ```.so```, ```.d``` and ```.pcm``` files.
 
 ### Testing
 Make sure to compile tests
