@@ -1,14 +1,15 @@
 #include "Particle.hpp"
 #include "ParticleType.hpp"
 #include "ResonanceType.hpp"
-#include "TCanvas.h"
-#include "TGraph2D.h"
-#include "TH1F.h"
-#include "TMath.h"
-#include "TPad.h"
-#include "TPaveStats.h"
-#include "TRandom.h"
-#include "TStyle.h"
+
+#include <TCanvas.h>
+#include <TGraph2D.h>
+#include <TH1F.h>
+#include <TMath.h>
+#include <TPad.h>
+#include <TPaveStats.h>
+#include <TRandom.h>
+#include <TStyle.h>
 
 int main() {
   gStyle->SetPalette(1);
@@ -296,6 +297,7 @@ int main() {
   invMass_canva->Print("../pdfs/invMass_canva.pdf");
   couples_canva->Print("../pdfs/couples_canva.pdf");
 
+  // Printing canvas on .root files
   types_canva->Print("../rootfiles/types_canva.root");
   angles_canva->Print("../rootfiles/angles_canva.root");
   p_canva->Print("../rootfiles/p_canva.root");
