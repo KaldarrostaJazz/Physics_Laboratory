@@ -1,4 +1,4 @@
-# Particle collision simulation.
+# Particle collider simulator.
 This is a simulation of a particle collision esperiment, such as the ones performed at CERN's ALICE, generated using Montecarlo generation integrated in ROOT. I will add more details in the future.
 This code is part of my physics laboratory exam at University of Bologna.
 
