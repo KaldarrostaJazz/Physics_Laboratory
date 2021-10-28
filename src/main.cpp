@@ -27,6 +27,9 @@ int main() {
   Particle::addType("Kaone*", 0.89166, 0, 0.050);
 
   // Histogram of the generated particles
+  //
+  // TH1::SetDefaultSumw2(kTRUE); every time TH1 object is created automatically calls TH1::Sumw2();
+  //
   TH1F* types = new TH1F("Particle_types", "Generated Particles", 7, -0.5, 6.5);
   types->GetXaxis()->SetTitle("Particles");
   types->GetYaxis()->SetTitle("Occurencies");
@@ -292,6 +295,13 @@ int main() {
   energy_canva->Print("../pdfs/energy_canva.pdf");
   invMass_canva->Print("../pdfs/invMass_canva.pdf");
   couples_canva->Print("../pdfs/couples_canva.pdf");
+
+  types_canva->Print("../rootfiles/types_canva.root");
+  angles_canva->Print("../rootfiles/angles_canva.root");
+  p_canva->Print("../rootfiles/p_canva.root");
+  energy_canva->Print("../rootfiles/energy_canva.root");
+  invMass_canva->Print("../rootfiles/invMass_canva.root");
+  couples_canva->Print("../rootfiles/couples_canva.root");
 
   return 0;
 }
