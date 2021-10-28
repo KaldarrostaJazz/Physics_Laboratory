@@ -1,7 +1,3 @@
-#include "Particle.hpp"
-#include "ParticleType.hpp"
-#include "ResonanceType.hpp"
-
 #include <TCanvas.h>
 #include <TGraph2D.h>
 #include <TH1F.h>
@@ -10,6 +6,10 @@
 #include <TPaveStats.h>
 #include <TRandom.h>
 #include <TStyle.h>
+
+#include "Particle.hpp"
+#include "ParticleType.hpp"
+#include "ResonanceType.hpp"
 
 int main() {
   gStyle->SetPalette(1);
@@ -29,7 +29,8 @@ int main() {
 
   // Histogram of the generated particles
   //
-  // TH1::SetDefaultSumw2(kTRUE); every time TH1 object is created automatically calls TH1::Sumw2();
+  // TH1::SetDefaultSumw2(kTRUE); every time TH1 object is created automatically
+  // calls TH1::Sumw2();
   //
   TH1F* types = new TH1F("Particle_types", "Generated Particles", 7, -0.5, 6.5);
   types->GetXaxis()->SetTitle("Particles");
