@@ -46,6 +46,7 @@ int main() {
   types->SetFillColor(kAzure + 2);
   types->SetLineColor(kBlue);
   types->SetLineWidth(2);
+  types->Sumw2(kFALSE);
 
   // Histograms and graph of momentum directions (theta and phi angle)
   TH1F* phi_hist = new TH1F("phi_angle", "Distribution of the azimutal angle",
@@ -55,6 +56,7 @@ int main() {
   phi_hist->SetFillColor(0);
   phi_hist->SetLineColor(kBlue);
   phi_hist->SetLineWidth(1);
+  phi_hist->Sumw2(kFALSE);
   TH1F* theta_hist = new TH1F("theta_angle", "Distribution of the polar angle",
                               1000, 0., TMath::Pi());
   theta_hist->GetXaxis()->SetTitle("Angle (rad)");
@@ -62,6 +64,7 @@ int main() {
   theta_hist->SetFillColor(0);
   theta_hist->SetLineColor(kRed);
   theta_hist->SetLineWidth(1);
+  theta_hist->Sumw2(kFALSE);
   TGraph2D* angles_graph = new TGraph2D(1E5);
   angles_graph->SetTitle(
       "Polar angles generation graph; X coordinate; Y coordinate; Z "
@@ -78,12 +81,14 @@ int main() {
   p_hist->GetYaxis()->SetTitle("Occurrencies");
   p_hist->SetLineColor(kBlack);
   p_hist->SetLineWidth(1);
+  p_hist->Sumw2(kFALSE);
   TH1F* trasvP_hist =
       new TH1F("trasvP_hist", "Trasversal Momentum Dist.", 1000, 0., 8.);
   trasvP_hist->GetXaxis()->SetTitle("Trasversal Momentum (GeV/c)");
   trasvP_hist->GetYaxis()->SetTitle("Occurrencies");
   trasvP_hist->SetLineColor(kBlack);
   trasvP_hist->SetLineWidth(1);
+  trasvP_hist->Sumw2(kFALSE);
 
   // Histogram of particle energies
   TH1F* energy_histo =
@@ -92,6 +97,7 @@ int main() {
   energy_histo->GetYaxis()->SetTitle("Occurrencies");
   energy_histo->SetLineColor(kYellow + 3);
   energy_histo->SetLineWidth(1);
+  energy_histo->Sumw2(kFALSE);
 
   // Histogram of Invariant Masses
   TH1F* decay_inv =
@@ -100,6 +106,7 @@ int main() {
   decay_inv->GetYaxis()->SetTitle("Occurrencies");
   decay_inv->SetLineColor(kBlue + 3);
   decay_inv->SetLineWidth(1);
+  decay_inv->Sumw2(kFALSE);
   TH1F* tot_inv = new TH1F(
       "tot_inv", "Inv. Masses of total generated particles", 10000, 0., 10.);
   tot_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
@@ -292,7 +299,7 @@ int main() {
   Kpi_inv->Draw("HIST SAME");
   
   // Saving histos on .root file
-  TFile* file = new TFile("../rootfiles/data.root", "new");
+  TFile* file = new TFile("../rootfiles/data.root", "RECREATE");
   types->Write();
   phi_hist->Write();
   theta_hist->Write();
