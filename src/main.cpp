@@ -6,6 +6,7 @@
 #include <TPaveStats.h>
 #include <TRandom.h>
 #include <TStyle.h>
+#include <TFile.h>
 
 #include "Particle.hpp"
 #include "ParticleType.hpp"
@@ -289,6 +290,22 @@ int main() {
   piK_inv->Draw("HIST SAME");
   couples_canva->cd(2);
   Kpi_inv->Draw("HIST SAME");
+  
+  // Saving histos on .root file
+  TFile* file = new TFile("../rootfiles/data.root", "new");
+  types->Write();
+  phi_hist->Write();
+  theta_hist->Write();
+  p_hist->Write();
+  trasvP_hist->Write();
+  energy_histo->Write();
+  tot_inv->Write();
+  decay_inv->Write();
+  sameCharge_inv->Write();
+  diffCharge_inv->Write();
+  piK_inv->Write();
+  Kpi_inv->Write();
+  file->Close();
 
   // Printing pdfs
   types_canva->Print("../pdfs/types_canva.pdf");
