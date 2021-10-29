@@ -29,8 +29,8 @@ int main() {
 
   // Histogram of the generated particles
   //
-  // TH1::SetDefaultSumw2(kTRUE); every time TH1 object is created automatically
-  // calls TH1::Sumw2();
+  TH1::SetDefaultSumw2(kTRUE); // every time TH1 object is created automatically
+  			       // calls TH1::Sumw2();
   //
   TH1F* types = new TH1F("Particle_types", "Generated Particles", 7, -0.5, 6.5);
   types->GetXaxis()->SetTitle("Particles");
@@ -240,7 +240,7 @@ int main() {
   // Plotting on canvas
   TCanvas* types_canva = new TCanvas("types_canva");
   types_canva->SetTitle("Particelle Generate");
-  types->Draw();
+  types->Draw("HIST SAME");
   gPad->Update();
   TPaveStats* st = (TPaveStats*)types->FindObject("stats");
   st->SetOptStat(11);
@@ -251,9 +251,9 @@ int main() {
   angles_canva->Divide(2, 1);
   angles_canva->cd(1)->Divide(1, 2);
   angles_canva->cd(1)->cd(1);
-  phi_hist->Draw();
+  phi_hist->Draw("HIST SAME");
   angles_canva->cd(1)->cd(2);
-  theta_hist->Draw();
+  theta_hist->Draw("HIST SAME");
   angles_canva->cd(2);
   angles_graph->Draw("PCOL");
 
@@ -262,33 +262,33 @@ int main() {
   p_canva->SetTitle("Momentum Dist.");
   p_canva->Divide(1, 2);
   p_canva->cd(1);
-  p_hist->Draw("C");
+  p_hist->Draw("HIST SAME C");
   p_canva->cd(2);
-  trasvP_hist->Draw("C");
+  trasvP_hist->Draw("HIST SAME C");
 
   TCanvas* energy_canva = new TCanvas("energy_canva");
   energy_canva->SetTitle("Energis Dist.");
-  energy_histo->Draw("C");
+  energy_histo->Draw("HIST SAME C");
 
   TCanvas* invMass_canva = new TCanvas("invMass_canva");
   invMass_canva->SetWindowSize(1000, 1000);
   invMass_canva->Divide(2, 2);
   invMass_canva->cd(1);
-  tot_inv->Draw();
+  tot_inv->Draw("HIST SAME");
   invMass_canva->cd(2);
-  decay_inv->Draw();
+  decay_inv->Draw("HIST SAME");
   invMass_canva->cd(3);
-  sameCharge_inv->Draw();
+  sameCharge_inv->Draw("HIST SAME");
   invMass_canva->cd(4);
-  diffCharge_inv->Draw();
+  diffCharge_inv->Draw("HIST SAME");
 
   TCanvas* couples_canva = new TCanvas("couples_canva");
   couples_canva->SetWindowSize(1200, 600);
   couples_canva->Divide(2, 1);
   couples_canva->cd(1);
-  piK_inv->Draw();
+  piK_inv->Draw("HIST SAME");
   couples_canva->cd(2);
-  Kpi_inv->Draw();
+  Kpi_inv->Draw("HIST SAME");
 
   // Printing pdfs
   types_canva->Print("../pdfs/types_canva.pdf");
