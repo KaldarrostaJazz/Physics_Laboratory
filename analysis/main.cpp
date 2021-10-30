@@ -201,6 +201,7 @@ int main() {
   TH1F* pion_kaon_ranged = new TH1F(*pion_kaon);
   pion_kaon_ranged->SetAxisRange(0.6, 1.4, "X");
   pion_kaon_ranged->SetAxisRange(-200, 1500, "Y");
+  pion_kaon_ranged->SetLineColor(7);
   pion_kaon_ranged->Fit("gaus", "", "", 0.6, 1.4);
   TF1* fitFunky = pion_kaon_ranged->GetFunction("gaus");
   fitFunky->SetLineColor(kRed);
@@ -212,12 +213,12 @@ int main() {
   //
   // Printing canvas
   //
-  canva1->Print("canva1.pdf");
-  canva2->Print("canva2.pdf");
-  canva3->Print("canva3.pdf");
-  canva4->Print("canva4.pdf");
-  canva5->Print("canva5.pdf");
-  canva6->Print("canva6.pdf");
+  canva1->Print("analysis_pdfs/canva1.pdf");
+  canva2->Print("analysis_pdfs/canva2.pdf");
+  canva3->Print("analysis_pdfs/canva3.pdf");
+  canva4->Print("analysis_pdfs/canva4.pdf");
+  canva5->Print("analysis_pdfs/canva5.pdf");
+  canva6->Print("analysis_pdfs/canva6.pdf");
 
   /*
   canva1->Print("canva1.root");
