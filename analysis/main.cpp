@@ -185,6 +185,8 @@ int main() {
   fitFunc->Draw("SAME");
   zero->Draw("SAME");
 
+  std::cout << std::endl;
+
   TCanvas* canva5 = new TCanvas("canva5");
   pion_kaon->Fit("gaus", "", "", 0.6, 1.4);
   TF1* funky = pion_kaon->GetFunction("gaus");
@@ -192,6 +194,8 @@ int main() {
   pion_kaon->Draw("HIST SAME");
   funky->Draw("SAME");
   zero->Draw("SAME");
+
+  std::cout << std::endl;
 
   TCanvas* canva6 = new TCanvas("canva6");
   TH1F* pion_kaon_ranged = new TH1F(*pion_kaon);
