@@ -3,13 +3,15 @@
 #include <TFile.h>
 #include <TH1.h>
 #include <TStyle.h>
+#include <TPaveStats.h>
+#include <TPad.h>
 
 #include <cmath>
 #include <iomanip>
 #include <iostream>
 
 int main() {
-  // 
+  //
   // Style
   //
   gStyle->SetOptStat("neMR");
@@ -171,8 +173,15 @@ int main() {
   pion_kaon->SetAxisRange(0.2, 2., "X");
 
   TCanvas* canva3 = new TCanvas("canva3");
-  diff_same->Draw("HIST SAME");
+  diff_same->Fit("gaus", "", "", 0.6, 1.2);
+  TF1* func = diff_same->GetFunction("gaus");
+  func->SetLineColor(kRed);
+  diff_same->Draw("HIST");
+  func->Draw("SAME");
   zero->Draw("SAME");
+  gPad->Update();
+  TPaveStats* st = (TPaveStats*)diff_same->FindObject("stats");
+  st->SetY1NDC(0.6);
 
   TCanvas* canva4 = new TCanvas("canva4");
   TH1F* diff_same_ranged = new TH1F(*diff_same);
@@ -191,7 +200,7 @@ int main() {
   pion_kaon->Fit("gaus", "", "", 0.6, 1.4);
   TF1* funky = pion_kaon->GetFunction("gaus");
   funky->SetLineColor(kRed);
-  pion_kaon->Draw("HIST SAME");
+  pion_kaon->Draw();
   funky->Draw("SAME");
   zero->Draw("SAME");
 
@@ -201,14 +210,13 @@ int main() {
   TH1F* pion_kaon_ranged = new TH1F(*pion_kaon);
   pion_kaon_ranged->SetAxisRange(0.6, 1.4, "X");
   pion_kaon_ranged->SetAxisRange(-200, 1500, "Y");
-  pion_kaon_ranged->SetLineColor(7);
+  pion_kaon_ranged->SetLineColor(kCyan + 1);
   pion_kaon_ranged->Fit("gaus", "", "", 0.6, 1.4);
   TF1* fitFunky = pion_kaon_ranged->GetFunction("gaus");
   fitFunky->SetLineColor(kRed);
   pion_kaon_ranged->Draw("HIST");
   fitFunky->Draw("SAME");
   zero->Draw("SAME");
-
 
   //
   // Printing canvas
