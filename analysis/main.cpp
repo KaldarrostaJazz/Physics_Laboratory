@@ -125,7 +125,7 @@ int main() {
             << std::setw(30) << '\n';
 
   // Canva 1: Angles
-  TCanvas* canva1 = new TCanvas("canva1");
+  TCanvas* canva1 = new TCanvas("canva1", "Angles");
   canva1->Divide(1, 2);
 
   canva1->cd(1);
@@ -147,7 +147,7 @@ int main() {
   std::cout << std::endl;
 
   // Canva 2: Momentum
-  TCanvas* canva2 = new TCanvas("canva2");
+  TCanvas* canva2 = new TCanvas("canva2", "Momentum");
   p_hist->Fit("expo");
   TF1* f_mom = p_hist->GetFunction("expo");
   f_mom->SetLineColor(kRed + 1);
@@ -163,7 +163,7 @@ int main() {
   diff_same->SetLineColor(kAzure + 1);
 
   TF1* zero = new TF1("zero", "0", 0., 10.);
-  zero->SetLineColor(kGreen);
+  zero->SetLineColor(kGreen + 2);
   zero->SetLineStyle(9);
   zero->SetLineWidth(2);
 
@@ -172,7 +172,7 @@ int main() {
   pion_kaon->SetLineColor(kAzure + 1);
   pion_kaon->SetAxisRange(0.2, 2., "X");
 
-  TCanvas* canva3 = new TCanvas("canva3");
+  TCanvas* canva3 = new TCanvas("canva3", "All particles");
   diff_same->Fit("gaus", "", "", 0.6, 1.2);
   TF1* func = diff_same->GetFunction("gaus");
   func->SetLineColor(kRed);
@@ -183,7 +183,7 @@ int main() {
   TPaveStats* st = (TPaveStats*)diff_same->FindObject("stats");
   st->SetY1NDC(0.6);
 
-  TCanvas* canva4 = new TCanvas("canva4");
+  TCanvas* canva4 = new TCanvas("canva4", "All particles");
   TH1F* diff_same_ranged = new TH1F(*diff_same);
   diff_same_ranged->SetAxisRange(0.7, 1.1, "X");
   diff_same_ranged->SetAxisRange(-100, 2000, "Y");
@@ -196,7 +196,7 @@ int main() {
 
   std::cout << std::endl;
 
-  TCanvas* canva5 = new TCanvas("canva5");
+  TCanvas* canva5 = new TCanvas("canva5", "Pions and Kaons");
   pion_kaon->Fit("gaus", "", "", 0.6, 1.4);
   TF1* funky = pion_kaon->GetFunction("gaus");
   funky->SetLineColor(kRed);
@@ -206,15 +206,15 @@ int main() {
 
   std::cout << std::endl;
 
-  TCanvas* canva6 = new TCanvas("canva6");
+  TCanvas* canva6 = new TCanvas("canva6", "Pions and Kaons");
   TH1F* pion_kaon_ranged = new TH1F(*pion_kaon);
   pion_kaon_ranged->SetAxisRange(0.6, 1.4, "X");
   pion_kaon_ranged->SetAxisRange(-200, 1500, "Y");
-  pion_kaon_ranged->SetLineColor(kCyan + 1);
+  pion_kaon_ranged->SetLineColor(kAzure - 4);
   pion_kaon_ranged->Fit("gaus", "", "", 0.6, 1.4);
   TF1* fitFunky = pion_kaon_ranged->GetFunction("gaus");
   fitFunky->SetLineColor(kRed);
-  pion_kaon_ranged->Draw("HIST");
+  pion_kaon_ranged->Draw();
   fitFunky->Draw("SAME");
   zero->Draw("SAME");
 
