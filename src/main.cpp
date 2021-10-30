@@ -128,13 +128,13 @@ int main() {
   diffCharge_inv->SetLineColor(kYellow + 3);
   diffCharge_inv->SetLineWidth(1);
   TH1F* piK_inv =
-      new TH1F("Pione+/-_Kaone-/+",
+      new TH1F("Pione_Kaone_diff",
                "Inv. Masses of couples Pions+/- and Kaons-/+", 10000, 0., 10.);
   piK_inv->GetXaxis()->SetTitle("Mass (GeV)");
   piK_inv->GetYaxis()->SetTitle("Occurrencies");
   piK_inv->SetLineColor(kBlue);
   TH1F* Kpi_inv =
-      new TH1F("Kaone+/-_Pione+/-",
+      new TH1F("Kaone_Pione_same",
                "Inv. Masses of couples Pions+/- and Kaons+/-", 10000, 0., 10.);
   Kpi_inv->GetXaxis()->SetTitle("Mass (GeV)");
   Kpi_inv->GetYaxis()->SetTitle("Occurrencies");
