@@ -150,7 +150,8 @@ int main() {
   TCanvas* canva2 = new TCanvas("canva2", "Momentum");
   p_hist->Fit("expo");
   TF1* f_mom = p_hist->GetFunction("expo");
-  f_mom->SetLineColor(kRed + 1);
+  f_mom->SetLineColor(kRed);
+  p_hist->SetFillColor(kGreen + 1);
   p_hist->Draw();
   f_mom->Draw("SAME");
 
