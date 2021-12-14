@@ -5,6 +5,7 @@
 #include <TStyle.h>
 #include <TPaveStats.h>
 #include <TPad.h>
+#include <TLegend.h>
 
 #include <cmath>
 #include <iomanip>
@@ -177,12 +178,19 @@ int main() {
   diff_same->Fit("gaus", "", "", 0.6, 1.2);
   TF1* func = diff_same->GetFunction("gaus");
   func->SetLineColor(kRed);
+  TLegend* leg3 = new TLegend(0.1, 0.75, 0.3, 0.9);
+  leg3->SetHeader("Legend", "C");
+  leg3->AddEntry(func, "Fit", "L");
+  leg3->AddEntry(diff_same, "Generated data", "L");
+  leg3->AddEntry(zero, "Zero line", "L");
   diff_same->Draw("HIST");
   func->Draw("SAME");
   zero->Draw("SAME");
+  leg3->Draw("SAME");
   gPad->Update();
-  TPaveStats* st = (TPaveStats*)diff_same->FindObject("stats");
-  st->SetY1NDC(0.6);
+  TPaveStats* st3 = (TPaveStats*)diff_same->FindObject("stats");
+  st3->SetY1NDC(0.6);
+  st3->SetOptStat(0);
 
   TCanvas* canva4 = new TCanvas("canva4", "All particles");
   TH1F* diff_same_ranged = new TH1F(*diff_same);
@@ -191,9 +199,19 @@ int main() {
   diff_same_ranged->Fit("gaus", "", "", 0.6, 1.2);
   TF1* fitFunc = diff_same_ranged->GetFunction("gaus");
   fitFunc->SetLineColor(kRed);
+  TLegend* leg4 = new TLegend(0.1, 0.75, 0.3, 0.9);
+  leg4->SetHeader("Legend", "C");
+  leg4->AddEntry(fitFunc, "Fit", "L");
+  leg4->AddEntry(diff_same_ranged, "Generated data", "L");
+  leg4->AddEntry(zero, "Zero line", "L");
   diff_same_ranged->Draw("HIST");
   fitFunc->Draw("SAME");
   zero->Draw("SAME");
+  leg4->Draw("SAME");
+  gPad->Update();
+  TPaveStats* st4 = (TPaveStats*)diff_same_ranged->FindObject("stats");
+  st4->SetOptStat(0);
+  st4->SetY1NDC(0.6);
 
   std::cout << std::endl;
 
@@ -201,9 +219,19 @@ int main() {
   pion_kaon->Fit("gaus", "", "", 0.6, 1.4);
   TF1* funky = pion_kaon->GetFunction("gaus");
   funky->SetLineColor(kRed);
+  TLegend* leg5 = new TLegend(0.1, 0.75, 0.3, 0.9);
+  leg5->SetHeader("Legend", "C");
+  leg5->AddEntry(funky, "Fit", "L");
+  leg5->AddEntry(pion_kaon, "Generated data", "L");
+  leg5->AddEntry(zero, "Zero line", "L");
   pion_kaon->Draw();
   funky->Draw("SAME");
   zero->Draw("SAME");
+  leg5->Draw("SAME");
+  gPad->Update();
+  TPaveStats* st5 = (TPaveStats*)pion_kaon->FindObject("stats");
+  st5->SetOptStat(0);
+  st5->SetY1NDC(0.6);
 
   std::cout << std::endl;
 
@@ -215,9 +243,19 @@ int main() {
   pion_kaon_ranged->Fit("gaus", "", "", 0.6, 1.4);
   TF1* fitFunky = pion_kaon_ranged->GetFunction("gaus");
   fitFunky->SetLineColor(kRed);
+  TLegend* leg6 = new TLegend(0.1, 0.75, 0.3, 0.9);
+  leg6->SetHeader("Legend", "C");
+  leg6->AddEntry(fitFunky, "Fit", "L");
+  leg6->AddEntry(pion_kaon_ranged, "Generated data", "L");
+  leg6->AddEntry(zero, "Zero line", "L");
   pion_kaon_ranged->Draw();
   fitFunky->Draw("SAME");
   zero->Draw("SAME");
+  leg6->Draw("SAME");
+  gPad->Update();
+  TPaveStats* st6 = (TPaveStats*)pion_kaon_ranged->FindObject("stats");
+  st6->SetOptStat(0);
+  st6->SetY1NDC(0.6);
 
   //
   // Printing canvas
