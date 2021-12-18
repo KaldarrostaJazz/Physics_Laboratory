@@ -267,12 +267,4 @@ int main() {
   canva5->Print("analysis_pdfs/pk_fit.pdf");
   canva6->Print("analysis_pdfs/pk_particular.pdf");
 
-  /*
-  canva1->Print("canva1.root");
-  canva2->Print("canva2.root");
-  canva3->Print("canva3.root");
-  canva4->Print("canva4.root");
-  canva5->Print("canva5.root");
-  canva6->Print("canva6.root");
-  */
 }
