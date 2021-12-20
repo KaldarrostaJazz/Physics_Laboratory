@@ -1,4 +1,5 @@
 #include <TCanvas.h>
+#include <TFile.h>
 #include <TGraph2D.h>
 #include <TH1F.h>
 #include <TMath.h>
@@ -6,7 +7,6 @@
 #include <TPaveStats.h>
 #include <TRandom.h>
 #include <TStyle.h>
-#include <TFile.h>
 
 #include "Particle.hpp"
 #include "ParticleType.hpp"
@@ -30,8 +30,8 @@ int main() {
 
   // Histogram of the generated particles
   //
-  TH1::SetDefaultSumw2(kTRUE); // every time TH1 object is created automatically
-  			       // calls TH1::Sumw2();
+  TH1::SetDefaultSumw2(kTRUE);  // every time TH1 object is created
+                                // automatically calls TH1::Sumw2();
   //
   TH1F* types = new TH1F("Particle_types", "Generated Particles", 7, -0.5, 6.5);
   types->GetXaxis()->SetTitle("Particles");
@@ -120,9 +120,9 @@ int main() {
   sameCharge_inv->GetYaxis()->SetTitle("Occurencies");
   sameCharge_inv->SetLineColor(kGreen + 3);
   sameCharge_inv->SetLineWidth(1);
-  TH1F* diffCharge_inv = new TH1F(
-      "diffCharge_inv", "Inv. Masses of particles with different charge", 1500,
-      0., 10.);
+  TH1F* diffCharge_inv =
+      new TH1F("diffCharge_inv",
+               "Inv. Masses of particles with different charge", 1500, 0., 10.);
   diffCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
   diffCharge_inv->GetYaxis()->SetTitle("Occurencies");
   diffCharge_inv->SetLineColor(kYellow + 3);
@@ -297,7 +297,7 @@ int main() {
   piK_inv->Draw("HIST SAME");
   couples_canva->cd(2);
   Kpi_inv->Draw("HIST SAME");
-  
+
   // Saving histos on .root file
   TFile* file = new TFile("../rootfiles/data.root", "RECREATE");
   types->Write();
