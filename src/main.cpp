@@ -108,20 +108,20 @@ int main() {
   decay_inv->SetLineWidth(1);
   decay_inv->Sumw2(kFALSE);
   TH1F* tot_inv = new TH1F(
-      "tot_inv", "Inv. Masses of total generated particles", 10000, 0., 10.);
+      "tot_inv", "Inv. Masses of total generated particles", 1500, 0., 10.);
   tot_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
   tot_inv->GetYaxis()->SetTitle("Occurencies");
   tot_inv->SetLineColor(kRed + 3);
   tot_inv->SetLineWidth(1);
   TH1F* sameCharge_inv =
       new TH1F("sameCharge_inv", "Inv. Masses of particles with same charge",
-               10000, 0., 10.);
+               1500, 0., 10.);
   sameCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
   sameCharge_inv->GetYaxis()->SetTitle("Occurencies");
   sameCharge_inv->SetLineColor(kGreen + 3);
   sameCharge_inv->SetLineWidth(1);
   TH1F* diffCharge_inv = new TH1F(
-      "diffCharge_inv", "Inv. Masses of particles with different charge", 10000,
+      "diffCharge_inv", "Inv. Masses of particles with different charge", 1500,
       0., 10.);
   diffCharge_inv->GetXaxis()->SetTitle("Mass (GeV/c^2)");
   diffCharge_inv->GetYaxis()->SetTitle("Occurencies");
@@ -129,13 +129,13 @@ int main() {
   diffCharge_inv->SetLineWidth(1);
   TH1F* piK_inv =
       new TH1F("Pione_Kaone_diff",
-               "Inv. Masses of couples Pions+/- and Kaons-/+", 10000, 0., 10.);
+               "Inv. Masses of couples Pions+/- and Kaons-/+", 1500, 0., 10.);
   piK_inv->GetXaxis()->SetTitle("Mass (GeV)");
   piK_inv->GetYaxis()->SetTitle("Occurrencies");
   piK_inv->SetLineColor(kBlue);
   TH1F* Kpi_inv =
       new TH1F("Kaone_Pione_same",
-               "Inv. Masses of couples Pions+/- and Kaons+/-", 10000, 0., 10.);
+               "Inv. Masses of couples Pions+/- and Kaons+/-", 1500, 0., 10.);
   Kpi_inv->GetXaxis()->SetTitle("Mass (GeV)");
   Kpi_inv->GetYaxis()->SetTitle("Occurrencies");
   Kpi_inv->SetLineColor(kRed);
@@ -321,14 +321,6 @@ int main() {
   energy_canva->Print("../pdfs/energy_canva.pdf");
   invMass_canva->Print("../pdfs/invMass_canva.pdf");
   couples_canva->Print("../pdfs/couples_canva.pdf");
-
-  // Printing canvas on .root files
-  types_canva->Print("../rootfiles/types_canva.root");
-  angles_canva->Print("../rootfiles/angles_canva.root");
-  p_canva->Print("../rootfiles/p_canva.root");
-  energy_canva->Print("../rootfiles/energy_canva.root");
-  invMass_canva->Print("../rootfiles/invMass_canva.root");
-  couples_canva->Print("../rootfiles/couples_canva.root");
 
   return 0;
 }
