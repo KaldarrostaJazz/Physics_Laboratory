@@ -160,18 +160,20 @@ int main() {
   // Operations with histos
   //
   TH1F* diff_same = new TH1F("diff_same", "Different charge minus same charge",
-                             10000, 0., 10.);
+                             1500, 0., 10.);
   diff_same->Add(diffCharge_inv, sameCharge_inv, 1, -1);
   diff_same->SetLineColor(kAzure + 1);
+  diff_same->SetMarkerColor(kAzure + 1);
 
   TF1* zero = new TF1("zero", "0", 0., 10.);
   zero->SetLineColor(kGreen + 2);
   zero->SetLineStyle(9);
   zero->SetLineWidth(2);
 
-  TH1F* pion_kaon = new TH1F("pion_kaon", "Pions and Kaons", 10000, 0., 10.);
+  TH1F* pion_kaon = new TH1F("pion_kaon", "Pions and Kaons", 1500, 0., 10.);
   pion_kaon->Add(piK_inv, Kpi_inv, 1, -1);
   pion_kaon->SetLineColor(kAzure + 1);
+  pion_kaon->SetMarkerColor(kAzure +1);
   pion_kaon->SetAxisRange(0.2, 2., "X");
 
   TCanvas* canva3 = new TCanvas("canva3", "All particles");
@@ -183,10 +185,10 @@ int main() {
   leg3->AddEntry(func, "Fit", "L");
   leg3->AddEntry(diff_same, "Generated data", "L");
   leg3->AddEntry(zero, "Zero line", "L");
-  diff_same->Draw("HIST");
+  diff_same->Draw();
+  leg3->Draw("SAME");
   func->Draw("SAME");
   zero->Draw("SAME");
-  leg3->Draw("SAME");
   gPad->Update();
   TPaveStats* st3 = (TPaveStats*)diff_same->FindObject("stats");
   st3->SetY1NDC(0.6);
@@ -195,7 +197,9 @@ int main() {
   TCanvas* canva4 = new TCanvas("canva4", "All particles");
   TH1F* diff_same_ranged = new TH1F(*diff_same);
   diff_same_ranged->SetAxisRange(0.7, 1.1, "X");
-  diff_same_ranged->SetAxisRange(-100, 2000, "Y");
+  diff_same_ranged->SetAxisRange(-3000, 9000, "Y");
+  diff_same_ranged->SetMarkerStyle(kFullCircle);
+  diff_same_ranged->SetMarkerColor(kAzure + 1);
   diff_same_ranged->Fit("gaus", "", "", 0.6, 1.2);
   TF1* fitFunc = diff_same_ranged->GetFunction("gaus");
   fitFunc->SetLineColor(kRed);
@@ -204,10 +208,10 @@ int main() {
   leg4->AddEntry(fitFunc, "Fit", "L");
   leg4->AddEntry(diff_same_ranged, "Generated data", "L");
   leg4->AddEntry(zero, "Zero line", "L");
-  diff_same_ranged->Draw("HIST");
+  diff_same_ranged->Draw();
+  leg4->Draw("SAME");
   fitFunc->Draw("SAME");
   zero->Draw("SAME");
-  leg4->Draw("SAME");
   gPad->Update();
   TPaveStats* st4 = (TPaveStats*)diff_same_ranged->FindObject("stats");
   st4->SetOptStat(0);
@@ -238,8 +242,9 @@ int main() {
   TCanvas* canva6 = new TCanvas("canva6", "Pions and Kaons");
   TH1F* pion_kaon_ranged = new TH1F(*pion_kaon);
   pion_kaon_ranged->SetAxisRange(0.6, 1.4, "X");
-  pion_kaon_ranged->SetAxisRange(-200, 1500, "Y");
+  pion_kaon_ranged->SetAxisRange(-2000, 9000, "Y");
   pion_kaon_ranged->SetLineColor(kAzure + 1);
+  pion_kaon_ranged->SetMarkerColor(kAzure + 1);
   pion_kaon_ranged->Fit("gaus", "", "", 0.6, 1.4);
   TF1* fitFunky = pion_kaon_ranged->GetFunction("gaus");
   fitFunky->SetLineColor(kRed);
