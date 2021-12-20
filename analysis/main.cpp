@@ -2,10 +2,10 @@
 #include <TF1.h>
 #include <TFile.h>
 #include <TH1.h>
-#include <TStyle.h>
-#include <TPaveStats.h>
-#include <TPad.h>
 #include <TLegend.h>
+#include <TPad.h>
+#include <TPaveStats.h>
+#include <TStyle.h>
 
 #include <cmath>
 #include <iomanip>
@@ -173,7 +173,7 @@ int main() {
   TH1F* pion_kaon = new TH1F("pion_kaon", "Pions and Kaons", 1500, 0., 10.);
   pion_kaon->Add(piK_inv, Kpi_inv, 1, -1);
   pion_kaon->SetLineColor(kAzure + 1);
-  pion_kaon->SetMarkerColor(kAzure +1);
+  pion_kaon->SetMarkerColor(kAzure + 1);
   pion_kaon->SetAxisRange(0.2, 2., "X");
 
   TCanvas* canva3 = new TCanvas("canva3", "All particles");
@@ -271,5 +271,4 @@ int main() {
   canva4->Print("analysis_pdfs/all_particular.pdf");
   canva5->Print("analysis_pdfs/pk_fit.pdf");
   canva6->Print("analysis_pdfs/pk_particular.pdf");
-
 }
